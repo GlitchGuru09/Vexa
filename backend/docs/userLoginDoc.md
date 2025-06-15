@@ -36,6 +36,7 @@ The request body should be in JSON format and include the following fields:
       "lastname": "string"
     },
     "email": "string",
+    "password": "hashed"
     "socketId": "string (optional)"
   }
 }

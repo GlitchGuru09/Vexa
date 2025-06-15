@@ -26,7 +26,7 @@ module.exports.registerUser = async (req, res, next) => {
         email,
         password: hashPassword
     });
-    const token = user.generateAuthToken();
+    const userToken = user.generateAuthToken();
     res.status(201).json({token,user});
 }
 
@@ -46,22 +46,26 @@ module.exports.loginUser = async (req, res, next) => {
     if (!isMatch) {
         return res.status(401).json({ message: 'Invalid email or password' });
     }
-    const token = user.generateAuthToken();
+    const userToken = user.generateAuthToken();
 
-    res.cookie('token', token)
+    res.cookie('userToken', userToken)
 
-    res.status(200).json({ token, user });
+    res.status(200).json({ userToken, user });
 }
 
 module.exports.getUserProfile = async (req, res, next) => {
+    if (!req.user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
     res.status(200).json(req.user);
 }
 
 module.exports.logoutUser = async (req, res, next) => {
-    res.clearCookie('token');
-    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+    const token = req.cookies.userToken || req.headers.authorization?.split(' ')[1];
 
     await blacklistTokenModel.create({ token });
+
+    res.clearCookie('userToken');
 
     res.status(200).json({ message: 'Logged out successfully' });
 
