@@ -10,11 +10,12 @@ const UserLogin = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setUserData({
+    const user = {
       email: email,
       password: password
-    });
-    console.log(userData)
+    };
+    setUserData(user);
+    console.log(user);
     setEmail('');
     setPassword('');
   }
