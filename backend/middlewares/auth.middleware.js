@@ -16,6 +16,9 @@ module.exports.isLoggedIn = async (req, res, next) => {
     }
     
     try {
+        if (!process.env.JWT_SECRET) {
+            return res.status(500).json({ message: 'Server error' });
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await userModel.findById(decoded.id);
         if (!user) {
@@ -41,6 +44,9 @@ module.exports.isLoggedInCaptain = async (req, res, next) => {
     }
     
     try {
+        if (!process.env.JWT_SECRET) {
+            return res.status(500).json({ message: 'Server error' });
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const captain = await captainModel.findById(decoded.id);
         if (!captain) {
