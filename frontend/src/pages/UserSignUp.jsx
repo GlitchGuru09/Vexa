@@ -1,28 +1,42 @@
-import {React, useState } from 'react';
+import {React, useContext, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GoogleLogo from '../images/google-logo.png';
+import axios from 'axios';
+import { UserDataContext } from '../context/UserContext';
 
 const UserSignUp = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [userData, setUserData] = useState({})
+    // const [userData, setUserData] = useState({})
+
+    const nevigate = useNavigate();
+
+    const { user, setUser } = useContext(UserDataContext);
   
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
       e.preventDefault();
-      const user = {
-        fullName: {
-          firstName: firstName,
-          lastName: lastName
+      const newUser = {
+        fullname: {
+          firstname: firstName,
+          lastname: lastName
         },
         email: email,
         password: password,
-      };
-      setUserData(user);
-      console.log(user);
+      }
+
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
+      if (response.status === 201) {
+        const data = response.data;
+
+        setUser(data.user)
+
+        nevigate('/home');
+      }
+
       setEmail('');
       setPassword('');
       setFirstName('');
