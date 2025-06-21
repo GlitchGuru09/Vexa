@@ -8,15 +8,19 @@ const Start = () => {
     backgroundImage: `url(${HomeCar})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    minHeight: '100vh',
   };
 
   return (
-    <div>
-      <div className='pt-2 w-full flex justify-between flex-col bg-red-400 h-screen' style={backgroundStyle}>
-        <img src={VexaLogo} alt="Vexa Logo" className="w-32 ml-2" />
-        <div className='bg-white pb-7 py-4 px-4'>
-          <h2 className='text-3xl font-bold'>Get Started with Vexa</h2>
-          <Link to='/login' className='flex items-center justify-center w-full bg-black text-white py-3 rounded mt-4' >Continue</Link>
+    <div style={backgroundStyle} className="relative flex flex-col min-h-screen w-full">
+      <div className="absolute inset-0 bg-black/40 z-0"></div>
+      {/* Logo at top left */}
+      <img src={VexaLogo} alt="Vexa Logo" className="w-32 absolute top-6 left-6 z-20 drop-shadow-lg" />
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen w-full px-4">
+        <div className="bg-white/80 rounded-xl shadow-xl p-8 max-w-lg w-full flex flex-col items-center">
+          <h2 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight font-sans text-center">Your Journey Starts Here</h2>
+          <p className="text-lg text-gray-700 mb-8 text-center font-light">Book a ride, explore the city, and move smarter with Vexa.</p>
+          <Link to='/login' className="w-full bg-gradient-to-r from-black to-gray-800 text-white py-3 rounded-lg font-semibold text-lg shadow-lg hover:scale-105 transition-transform duration-200 text-center">Continue</Link>
         </div>
       </div>
     </div>
