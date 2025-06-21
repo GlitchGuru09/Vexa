@@ -11,8 +11,16 @@ const captainRoutes = require('./routes/captain.routes');
 
 connectDB(); // Connect to the database
 
+// CORS (Cross-Origin Resource Sharing) is like a security guard in the browser.
+//  It blocks requests between different origins unless you give explicit permission.
+// http://localhost:5173 (React)
+// http://localhost:4000 (Express)
+// These are different origins, so the browser is suspicious and blocks cookies unless you set the rules very carefully.
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // 🎯 Only allow this origin
+  credentials: true                // ✅ Allow cookies
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // Middleware to parse cookies

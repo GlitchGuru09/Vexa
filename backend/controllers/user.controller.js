@@ -28,7 +28,7 @@ module.exports.registerUser = async (req, res, next) => {
             password: hashPassword
         });
         const userToken = user.generateAuthToken();
-        res.status(201).json({ token: userToken, user });
+        res.status(201).json({ userToken, user });
     } catch (error) {
         console.error('Error in registerUser:', error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -53,7 +53,12 @@ module.exports.loginUser = async (req, res, next) => {
     }
     const userToken = user.generateAuthToken();
 
-    res.cookie('userToken', userToken)
+    res.cookie('userToken', userToken, {
+        httpOnly: true,      // ✅ keeps it safe from JS
+        secure: false,       // ❌ okay in dev, but must be true in production
+        sameSite: 'Lax'      // ✅ blocks unwanted cross-site sends
+    });
+    // Your cookie gets set in the browser
 
     res.status(200).json({ userToken, user });
 }
@@ -67,10 +72,18 @@ module.exports.getUserProfile = async (req, res, next) => {
 
 module.exports.logoutUser = async (req, res, next) => {
     const token = req.cookies.userToken || req.headers.authorization?.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
 
     await blacklistTokenModel.create({ token });
 
-    res.clearCookie('userToken');
+    res.clearCookie('userToken',
+        {
+            httpOnly: true,      // ✅ keeps it safe from JS
+            secure: false,       // ❌ okay in dev, but must be true in production
+            sameSite: 'Lax'      // ✅ blocks unwanted cross-site sends
+        });
 
     res.status(200).json({ message: 'Logged out successfully' });
 

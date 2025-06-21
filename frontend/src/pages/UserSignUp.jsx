@@ -11,9 +11,8 @@ const UserSignUp = () => {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // const [userData, setUserData] = useState({})
 
-    const nevigate = useNavigate();
+    const navigate = useNavigate();
 
     const { user, setUser } = useContext(UserDataContext);
   
@@ -33,8 +32,9 @@ const UserSignUp = () => {
         const data = response.data;
 
         setUser(data.user)
+        localStorage.setItem('userToken', data.userToken);
 
-        nevigate('/home');
+        navigate('/home');
       }
 
       setEmail('');

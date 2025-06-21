@@ -10,7 +10,6 @@ module.exports.registerCaptain = async (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-
     console.log(req.body);
     const { fullname, email, password, vehicle } = req.body;
 
@@ -52,7 +51,12 @@ module.exports.loginCaptain = async (req, res, next) => {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
     const capToken = captain.generateAuthToken();
-    res.cookie('capToken', capToken)
+    res.cookie('capToken', capToken,
+        {
+        httpOnly: true,      // ✅ keeps it safe from JS
+        secure: false,       // ❌ okay in dev, but must be true in production
+        sameSite: 'Lax'      // ✅ blocks unwanted cross-site sends
+    });
 
     res.status(200).json({ capToken, captain });
 }
@@ -70,7 +74,12 @@ module.exports.logoutCaptain = async (req, res, next) => {
 
     await blacklistTokenModel.create({ token });
 
-    res.clearCookie('capToken');
+    res.clearCookie('capToken',
+        {
+        httpOnly: true,      // ✅ keeps it safe from JS
+        secure: false,       // ❌ okay in dev, but must be true in production
+        sameSite: 'Lax'      // ✅ blocks unwanted cross-site sends
+    });
 
     res.status(200).json({ message: 'Logged out successfully' });
 }
