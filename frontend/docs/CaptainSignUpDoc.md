@@ -8,3 +8,10 @@
 - Uses `useContext(CaptainDataContext)` to update captain state.
 - Stores JWT token in `localStorage` as `capToken`.
 - Navigates to `/captain-home` on successful signup.
+
+## Success
+- On successful signup, navigates to `/captain-home`.
+
+## Failure
+- If signup fails (e.g., validation error, email exists), the backend returns an error (usually 400) with a message like `Captain with this email already exists` or validation errors.
+- The error can be caught and displayed to the user as a notification or alert.
