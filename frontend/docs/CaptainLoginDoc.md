@@ -9,7 +9,7 @@
 - Navigates to `/captain-home` on successful login.
 
 ## Success
-- On successful login, navigates to `/captain-home`.
+- On successful login, navigates to `/captain-home`
 
 ## Failure
 - If login fails (e.g., wrong credentials), the backend returns an error (usually 400 or 401) with a message like `Invalid email or password`.
