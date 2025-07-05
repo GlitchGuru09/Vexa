@@ -7,11 +7,16 @@ import Car from '../images/car.png';
 import 'remixicon/fonts/remixicon.css'
 import CaptainDetails from '../components/CaptainDetails';
 import RidePopUp from '../components/RidePopUp';
+import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
 
 const CaptainHome = () => {
 
   const ridePopUpPanelRef = useRef(null)
+  const confirmRidePopUpPanelRef = useRef(null)
+
   const [ridePopUpPanel, SetRidePopUpPanel] = useState(true)
+  const [confirmRidePopUpPanel, SetConfirmRidePopUpPanel] = useState(false)
+
 
   useGSAP(() => {
     if (ridePopUpPanel) {
@@ -24,6 +29,18 @@ const CaptainHome = () => {
       });
     }
   }, [ridePopUpPanel]);
+
+  useGSAP(() => {
+    if (confirmRidePopUpPanel) {
+      gsap.to(confirmRidePopUpPanelRef.current, {
+        transform: 'translateY(0%)'
+      });
+    } else {
+      gsap.to(confirmRidePopUpPanelRef.current, {
+        transform: 'translateY(100%)'
+      });
+    }
+  }, [confirmRidePopUpPanel]);
 
   return (
     <div className='h-screen'>
@@ -41,7 +58,10 @@ const CaptainHome = () => {
         <CaptainDetails />
       </div>
       <div ref={ridePopUpPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-5 py-6 pt-12'>
-        <RidePopUp SetRidePopUpPanel= {SetRidePopUpPanel} />
+        <RidePopUp SetRidePopUpPanel= {SetRidePopUpPanel} SetConfirmRidePopUpPanel= {SetConfirmRidePopUpPanel}/>
+      </div>
+      <div ref={confirmRidePopUpPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-5 py-6 pt-12'>
+        <ConfirmRidePopUp SetConfirmRidePopUpPanel= {SetConfirmRidePopUpPanel} SetRidePopUpPanel = {SetRidePopUpPanel}  />
       </div>
     </div>
   )

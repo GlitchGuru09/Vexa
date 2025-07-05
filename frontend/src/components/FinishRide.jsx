@@ -1,13 +1,15 @@
 import React from 'react'
 import Car from '../images/car.png';
+import { Link } from 'react-router-dom'
 
-const RidePopUp = (props) => {
-    return (
-        <div>
-            <h3 onClick={() => {props.SetRidePopUpPanel(false)}} className='absolute top-0 text-center p-1 w-[93%] text-2xl font-light text-gray-500'>
+const FinishRide = (props) => {
+    
+  return (
+    <div>
+            <h3 onClick={() => {props.setFinishRidePanel(false)}} className='absolute top-0 text-center p-1 w-[93%] text-2xl font-light text-gray-500'>
                 <i className="ri-arrow-down-wide-line"></i>
             </h3>
-            <h3 className='text-2xl font-semibold mb-3'>New Ride Available!</h3>
+            <h3 className='text-2xl font-semibold mb-3'>Finish this Ride</h3>
             <div className='flex items-center justify-between p-3 rounded-xl bg-yellow-300 mt-4'>
                 <div className='flex items-center gap-3 '>
                     <img className='h-10 w-10 rounded-full object-cover' src="https://tse4.mm.bing.net/th/id/OIP.hzuak7Fjr-w-arzEYhXNgAHaJ4?pid=Api&P=0&h=180" alt="" />
@@ -39,17 +41,14 @@ const RidePopUp = (props) => {
                             ></div>
                     </div>
                 </div>
-                <div className='flex items-center justify-between w-full mt-4'>
-                    <button onClick={() => {props.SetRidePopUpPanel(false)}} 
-                            className=' bg-gray-300 text-gray-700 font-semibold p-3 px-10 rounded-lg'>Ignore
-                    </button>
-                    <button onClick={() => {props.SetConfirmRidePopUpPanel(true)}}
-                             className=' bg-green-600 text-white font-semibold p-3 px-10 rounded-lg'>Accept
-                    </button>
-                </div>
+              <div className='mt-10 w-full' >
+                  <Link to='/captain-riding' className='w-full mt-5 flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Finish Ride
+                  </Link>
+                  <p className='flex justify-center mt-6 text-xs '>Click on Finish Ride if you completed the payment.</p>
+              </div>
             </div>
         </div>
-    )
+  )
 }
 
-export default RidePopUp
+export default FinishRide
