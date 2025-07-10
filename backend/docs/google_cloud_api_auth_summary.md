@@ -78,7 +78,5 @@ Authorization: Bearer ya29.A0ARrdaM...
 - Use **OAuth** when accessing user data.
 - Use **Service Accounts** for backend-to-Google Cloud communication.
 
----
 
-Would you like a code example in Node.js or Python showing token usage with Google Cloud?
 
