@@ -1,12 +1,3 @@
-/**
- * Retrieves the latitude and longitude coordinates for a given address using the Google Maps Geocoding API.
- *
- * @async
- * @function
- * @param {string} address - The address to geocode.
- * @returns {Promise<{ltd: number, lang: number}>} An object containing the latitude (`ltd`) and longitude (`lang`) of the address.
- * @throws {Error} If no results are found for the given address or if there is an error fetching coordinates.
- */
 const axios = require('axios');
 
 
@@ -59,5 +50,28 @@ module.exports.getDistanceTime = async (origin, destination) => {
         }
     } catch (error) {
         return res.status(500).json({ error: 'Error fetching distance and time' });
+    }
+}
+
+module.exports.getAutoCompleteSuggestions = async (input) => {
+    if (!input || input.length < 3) {
+        throw new Error('querry is required');
+    }
+    const apiKey = process.env.GOOGLE_MAPS_API;
+    if (!apiKey) {
+        throw new Error('Google Maps API key is not configured');
+    }
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+
+    try {
+        const response = await axios.get(url);
+        console.log(response.data);
+        if (response.data.status === 'OK') {
+            return response.data.predictions;
+        } else {
+            throw new Error('No suggestions found');
+        }
+    } catch (error) {
+        throw new Error('Error fetching suggestions: ' + error.message);
     }
 }

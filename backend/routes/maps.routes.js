@@ -14,5 +14,10 @@ router.get('/get-distance-time',
      authMiddleware.isLoggedIn, mapController.getDistanceTime
 )
 
+router.get('/get-suggestions',
+     query('input').isString().isLength({ min: 3 }),
+     authMiddleware.isLoggedIn, mapController.getAutoCompleteSuggestions
+)
+
 module.exports = router; 
 
