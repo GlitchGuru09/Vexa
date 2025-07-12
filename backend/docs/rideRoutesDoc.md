@@ -85,4 +85,4 @@ Creates a new ride request in the system.
 
 - The `fare` is calculated based on the distance between pickup and destination and the selected vehicle type.
 - The `otp` field is generated for ride verification and is not returned in queries by default (for security).
-- The `status` is set to `pending` when the ride is
+- The `status` is set to `pending` as default
