@@ -26,7 +26,9 @@ async function getFare(pickup, destination){
      const distanceInKm = distanceTime.distance && distanceTime.distance.value
         ? distanceTime.distance.value / 1000
         : 0;
-    console.log(distanceInKm);
+    if (!distanceTime?.distance?.value) {
+  throw new Error('Distance data missing from mapService response');
+}
 
     const fares = {
         auto: baseFare.auto + perKmRate.auto * distanceInKm,
@@ -34,10 +36,10 @@ async function getFare(pickup, destination){
         motorcycle: baseFare.motorcycle + perKmRate.motorcycle * distanceInKm
     };
 
-    console.log(parseFloat(fares.car.toFixed(2)));
-
+    console.log(fares);
     return fares;
 }
+module.exports.getFare = getFare;
 
 function getOtp(num) {
     const otp = crypto.randomInt(Math.pow(10, num - 1), Math.pow(10, num));

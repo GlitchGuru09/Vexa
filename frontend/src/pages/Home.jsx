@@ -28,6 +28,7 @@ const Home = () => {
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [activeField, setActiveField] = useState(null);
+  const [fare, setFare] = useState({});
 
   const handlePickupChange = async (e) => {
   setPickup(e.target.value);
@@ -145,6 +146,22 @@ const handleDestinationChange = async (e) => {
     }
   }, [waitingForDriverPanel]);
 
+  async function findTrip(){
+    setPanelOpen(false);
+    setVehiclePanel(true);
+    const token = localStorage.getItem('userToken');
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+      params: {
+        pickup,
+        destination
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    // console.log(response.data);
+  }
+
 
   return (
     <div className='h-screen relative overflow-hidden'>
@@ -180,6 +197,11 @@ const handleDestinationChange = async (e) => {
               placeholder='Enter your destination'
             />
           </form>
+          <button 
+            onClick={findTrip}
+            className="w-full bg-black text-white px-4 py-1 rounded-lg font-semibold transition hover:bg-gray-700">
+            Find Trip
+          </button>
         </div>
         <div ref={panelRef} className='h-0 bg-white '>
           <LocationSearchPanel 
@@ -193,7 +215,7 @@ const handleDestinationChange = async (e) => {
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-5 py-6 pt-12'>
-        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+        <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
       </div>
       <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-5 py-6 pt-12'>
         <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFoundPanel={setVehicleFoundPanel} />

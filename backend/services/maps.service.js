@@ -27,29 +27,28 @@ module.exports.getAddressCordinate = async (address) => {
 
 module.exports.getDistanceTime = async (origin, destination) => {
     if (!origin || !destination) {
-        return res.status(400).json({ error: 'Origin and destination are required' });
+        throw new Error('Origin and destination are required');
     }
 
     const apiKey = process.env.GOOGLE_MAPS_API;
     if (!apiKey) {
-        return res.status(500).json({ error: 'Google Maps API key is not configured' });
+        throw new Error('Google Maps API key is not configured');
     }
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
     try {
-
         const response = await axios.get(url);
         console.log(response.data);
         if (response.data.status === 'OK') {
             if (response.data.rows[0].elements[0].status === 'ZERO_RESULTS') {
-                return res.status(404).json({ error: 'No distance and time data found' });
+                throw new Error('No distance and time data found');
             }
             return response.data.rows[0].elements[0];
         } else {
-            return res.status(404).json({ error: 'Distance and time not found' });
+            throw new Error('Distance and time not found');
         }
     } catch (error) {
-        return res.status(500).json({ error: 'Error fetching distance and time' });
+        throw new Error('Error fetching distance and time: ' + error.message);
     }
 }
 

@@ -17,8 +17,8 @@ const LocationSearchPanel = ({
     } else if (activeField === 'destination') {
       setDestination(suggestion);
     }
-    setPanelOpen(false);
-    if (setVehiclePanel) setVehiclePanel(true);
+    // setPanelOpen(false);
+    // setVehiclePanel(true);
   };
 
   return (
