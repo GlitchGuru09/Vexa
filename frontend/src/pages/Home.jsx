@@ -159,9 +159,9 @@ const handleDestinationChange = async (e) => {
         Authorization: `Bearer ${token}`
       }
     });
+    setFare(response.data)
     // console.log(response.data);
   }
-
 
   return (
     <div className='h-screen relative overflow-hidden'>

@@ -15,7 +15,7 @@ module.exports.getAddressCordinate = async (address) => {
             response.data.results.length > 0
         ) {
             const location = response.data.results[0].geometry.location;
-            console.log(location.lat, location.lng)
+            // console.log(location.lat, location.lng)
             return { ltd: location.lat, lang: location.lng };
         } else {
             throw new Error('No results found for the given address.');
@@ -38,7 +38,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
 
     try {
         const response = await axios.get(url);
-        console.log(response.data);
+        // console.log('Google DistanceMatrix response:', JSON.stringify(response.data, null, 2));
         if (response.data.status === 'OK') {
             if (response.data.rows[0].elements[0].status === 'ZERO_RESULTS') {
                 throw new Error('No distance and time data found');
@@ -64,7 +64,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
 
     try {
         const response = await axios.get(url);
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status === 'OK') {
             return response.data.predictions;
         } else {

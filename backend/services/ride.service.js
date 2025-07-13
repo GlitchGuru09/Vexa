@@ -9,8 +9,6 @@ async function getFare(pickup, destination){
 
     const distanceTime = await mapService.getDistanceTime(pickup, destination);
 
-    console.log(distanceTime);
-
     const baseFare = {
         auto: 80,
         car: 120,
@@ -36,7 +34,7 @@ async function getFare(pickup, destination){
         motorcycle: baseFare.motorcycle + perKmRate.motorcycle * distanceInKm
     };
 
-    console.log(fares);
+    // console.log(fares);
     return fares;
 }
 module.exports.getFare = getFare;
