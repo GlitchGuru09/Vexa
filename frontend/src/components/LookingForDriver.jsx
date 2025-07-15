@@ -15,22 +15,22 @@ const LookingForDriver = (props) => {
                         <div className='flex items-center gap-5 p-3 border-b-2'>
                             <i className="text-lg ri-map-pin-fill"></i>
                             <div>
-                                <h3 className='text-lg font-medium'>562,/11-4</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>Cortalim, Goa</p
+                                <h3 className='text-lg font-medium'>{props.pickup.split(',').slice(0, 2).join(',')}</h3>
+                                <p className='text-sm -mt-1 text-gray-600'>{props.pickup}</p
                                 ></div>
                         </div>
                         <div className='flex items-center gap-5 p-3 border-b-2'>
                             <i className="text-lg ri-map-pin-fill"></i>
                             <div>
-                                <h3 className='text-lg font-medium'>562,/11-4</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>Cortalim, Goa</p
+                                <h3 className='text-lg font-medium'>{props.destination.split(',').slice(0, 2).join(',')}</h3>
+                                <p className='text-sm -mt-1 text-gray-600'>{props.destination}</p
                                 ></div>
                         </div>
                         <div className='flex items-center gap-5 p-3 border-b-2'>
                             <i className="ri-money-rupee-circle-fill"></i>
                             <div>
-                                <h3 className='text-lg font-medium'>₹192.20</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p
+                                <h3 className='text-lg font-medium'><span className='inline'>₹</span>{props.fare[props.vehicleType]}</h3>
+                                <p className='text-sm -mt-1 text-gray-600'>Cash or UPI</p
                                 ></div>
                         </div>
                     </div>

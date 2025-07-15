@@ -29,9 +29,9 @@ async function getFare(pickup, destination){
 }
 
     const fares = {
-        auto: baseFare.auto + perKmRate.auto * distanceInKm,
-        car: baseFare.car + perKmRate.car * distanceInKm,
-        motorcycle: baseFare.motorcycle + perKmRate.motorcycle * distanceInKm
+        auto: Math.round(baseFare.auto + perKmRate.auto * distanceInKm),
+        car: Math.round(baseFare.car + perKmRate.car * distanceInKm),
+        motorcycle: Math.round(baseFare.motorcycle + perKmRate.motorcycle * distanceInKm)
     };
 
     // console.log(fares);
