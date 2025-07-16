@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef,useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import VexaLogo from '../images/vexalogo.png'
 import { useGSAP } from '@gsap/react';
@@ -8,6 +8,7 @@ import 'remixicon/fonts/remixicon.css'
 import CaptainDetails from '../components/CaptainDetails';
 import RidePopUp from '../components/RidePopUp';
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
+import { CaptainDataContext } from '../context/CaptainContext';
 
 const CaptainHome = () => {
 
@@ -16,6 +17,9 @@ const CaptainHome = () => {
 
   const [ridePopUpPanel, SetRidePopUpPanel] = useState(true)
   const [confirmRidePopUpPanel, SetConfirmRidePopUpPanel] = useState(false)
+
+  const { captain } = useContext(CaptainDataContext);
+  // console.log("captain data:", captain);
 
 
   useGSAP(() => {
