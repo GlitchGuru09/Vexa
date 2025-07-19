@@ -35,7 +35,7 @@ const CaptainDetails = () => {
             <p className='text-sm text-gray-600'>Hours Online</p></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CaptainDetails
+export default CaptainDetails;
