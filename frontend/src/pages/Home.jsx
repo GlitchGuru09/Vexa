@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import VexaLogo from '../images/vexalogo.png'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -9,6 +9,8 @@ import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/WaitingForDriver';
 import axios from 'axios'; 
+import { SocketContext } from '../context/SocketContext';
+import { UserDataContext } from '../context/UserContext';
 
 const Home = () => {
   const [pickup, setPickup] = useState('');
@@ -30,6 +32,16 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserDataContext);
+
+  useEffect(() => {
+  if (!user || !socket) return; // Check both are available
+
+  socket.emit("join", { userType: 'user', userId: user._id });
+
+}, [user, socket]);
 
   const handlePickupChange = async (e) => {
   setPickup(e.target.value);
@@ -72,6 +84,35 @@ const handleDestinationChange = async (e) => {
     console.error('Error fetching destination suggestions:', error);
   }
 };
+
+  async function findTrip(){
+    setPanelOpen(false);
+    setVehiclePanel(true);
+    const token = localStorage.getItem('userToken');
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+      params: {
+        pickup,
+        destination
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setFare(response.data)
+    // console.log(response.data);
+  }
+
+  async function createRide() {
+    const token = localStorage.getItem('userToken');
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/create`,
+      { pickup, destination, vehicleType }, // body
+      {
+        headers: { Authorization: `Bearer ${token}` } // config
+      }
+    );
+    console.log(response.data);
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -147,34 +188,6 @@ const handleDestinationChange = async (e) => {
     }
   }, [waitingForDriverPanel]);
 
-  async function findTrip(){
-    setPanelOpen(false);
-    setVehiclePanel(true);
-    const token = localStorage.getItem('userToken');
-    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
-      params: {
-        pickup,
-        destination
-      },
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    setFare(response.data)
-    // console.log(response.data);
-  }
-
-  async function createRide() {
-    const token = localStorage.getItem('userToken');
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/rides/create`,
-      { pickup, destination, vehicleType }, // body
-      {
-        headers: { Authorization: `Bearer ${token}` } // config
-      }
-    );
-    console.log(response.data);
-  }
 
   return (
     <div className='h-screen relative overflow-hidden'>

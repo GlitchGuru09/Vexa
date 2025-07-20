@@ -10,7 +10,7 @@ module.exports.registerCaptain = async (req, res, next) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    console.log(req.body);
+    // console.log(req.body);
     const { fullname, email, password, vehicle } = req.body;
 
     const isCaptainExists = await captainModel.findOne({ email });
