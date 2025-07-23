@@ -17,6 +17,7 @@ module.exports.getAddressCordinate = async (address) => {
             response.data.results.length > 0
         ) {
             const location = response.data.results[0].geometry.location;
+            // console.log("Google Maps API - Geocode response:", location);
             return { ltd: location.lat, lng: location.lng };
         } else {
             throw new Error('No results found for the given address.');
@@ -85,10 +86,10 @@ module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
     const captains = await CaptainModel.find({
         location: {
             $geoWithin: {
-                $centerSphere: [ [lng , ltd ] , radius / 6371 ] // NOTE: lng first
+                $centerSphere: [ [ltd , lng ] , radius / 6371 ] 
             }
         }
     });
-    // console.log(captains);
+    // console.log("Captains in the radius:", captains);
     return captains;
 };

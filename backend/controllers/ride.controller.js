@@ -17,10 +17,10 @@ module.exports.createRide = async (req, res) => {
         res.status(201).json(ride);
 
         const pickupCoordinates = await mapsService.getAddressCordinate(pickup);
-        // console.log("Pickup Coordinates:", pickupCoordinates);
+        console.log("Pickup Coordinates:", pickupCoordinates);
 
         const captainsInRadius = await mapsService.getCaptainsInTheRadius(pickupCoordinates.ltd,pickupCoordinates.lng,2 ); //2 km radius
-        // console.log("Captains in radius:", captainsInRadius);
+        console.log("Captains in radius:", captainsInRadius);
 
     } catch (error) {
         return console.log(error);

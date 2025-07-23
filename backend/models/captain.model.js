@@ -57,16 +57,13 @@ const captainSchema = new mongoose.Schema({
     },
 
     location: {
-  type: {
-    type: String,
-    enum: ['Point'],
-    default: 'Point'
-  },
-  coordinates: {
-    type: [Number],
-    default: [0, 0] // ✅ Safe dummy value
-  }
-}
+        ltd : {
+            type: Number
+        },
+        lng : {
+            type: Number
+        }
+    }
 });
 
 captainSchema.methods.generateAuthToken = function () {

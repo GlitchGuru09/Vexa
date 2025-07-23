@@ -32,14 +32,16 @@ function intializeSocket(server) {
         });
 
         socket.on('update-location-captain', async (data) => {
-            const { userId, latitude, longitude } = data;
-            if (!userId || !latitude || !longitude) return;
+            // console.log("update-location-captain data:", data);
+            const { userId, location } = data;
+            // console.log("update-location-captain userId:", userId, "location:", location);
+            if (!userId || !location ) return;
 
             await CaptainModel.findByIdAndUpdate(userId, {
                 location: {
-                    type: 'Point',
-                    coordinates: [longitude, latitude] // lng, lat
-                }
+                    ltd: location.lat,
+                    lng: location.lng
+                },
             });
         });
 

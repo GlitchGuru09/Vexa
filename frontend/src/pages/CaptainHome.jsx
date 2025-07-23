@@ -31,14 +31,16 @@ const CaptainHome = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
 
-        console.log("captain id:", captain._id, "location:", position.coords.latitude, position.coords.longitude);
+        // console.log("captain id:", captain._id, "location:", position.coords.latitude, position.coords.longitude);
 
         socket.emit('update-location-captain', {
           userId: captain._id,
           location: {
-            coordinates: [position.coords.longitude, position.coords.latitude]
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
           }
         });
+        // console.log("Location updated for captain:", captain._id, "to", position.coords.latitude, position.coords.longitude);
       });
     }
   };
