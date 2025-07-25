@@ -18,4 +18,9 @@ router.get('/get-fare',
     rideController.getFare
 )
 
+router.post('/confirm',authMiddleware.isLoggedInCaptain,
+    body('rideId').isMongoId().withMessage('Invalid ride ID'),
+    rideController.confirmRide
+)
+
 module.exports = router;

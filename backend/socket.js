@@ -5,7 +5,7 @@ const CaptainModel = require('./models/captain.model');
 let io;
 
 function intializeSocket(server) {
-    const io = socketIo(server, {
+    io = socketIo(server, {
         cors: {
             origin: '*',
             methods: ['GET', 'POST'],
@@ -13,7 +13,7 @@ function intializeSocket(server) {
     });
 
     io.on('connection', (socket) => {
-        console.log(`client connected: ${socket.id}`);
+        // console.log(`client connected: ${socket.id}`);
 
         socket.on('join', async (data) => {
             const { userId, userType } = data;
@@ -51,9 +51,14 @@ function intializeSocket(server) {
     });
 }
 
-function sendMessageToSocketId(socketId, message) {
-    if (io && socketId) {
-        io.to(socketId).emit('message', message);
+const sendMessageToSocketId = (socketId, messageObject) => {
+
+    // console.log(socketId);
+    // console.log(io)
+
+    console.log(messageObject);
+    if (io) {
+        io.to(socketId).emit(messageObject.event, messageObject.data);
     } else {
         console.error('Socket not initialized or socketId is missing');
     }
