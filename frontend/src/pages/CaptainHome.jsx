@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import VexaLogo from '../images/vexalogo.png'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import axios from 'axios';
 import Car from '../images/car.png';
 import 'remixicon/fonts/remixicon.css'
 import CaptainDetails from '../components/CaptainDetails';
@@ -49,7 +50,7 @@ const CaptainHome = () => {
     const locationInterval = setInterval(updateLocation, 5000);
     updateLocation();
 
-  //   return () => clearInterval(locationInterval);
+    //   return () => clearInterval(locationInterval);
   });
 
   socket.on('new-ride', (data) => {
@@ -59,10 +60,33 @@ const CaptainHome = () => {
   })
 
   async function confirmRide() {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/confirm`, {});
+  const token = localStorage.getItem('capToken');
+  if (!token) {
+    console.error('No token found. Please log in.');
+    return;
+  }
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{rideId: ride._id,captainId: captain._id},
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    console.log(response)
+
     SetRidePopUpPanel(false);
     SetConfirmRidePopUpPanel(true);
+  } catch (error) {
+    if (error.response) {
+      console.error('Backend responded with error:', error.response.data);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error setting up request:', error.message);
+    }
   }
+}
 
   useGSAP(() => {
     if (ridePopUpPanel) {
@@ -104,10 +128,10 @@ const CaptainHome = () => {
         <CaptainDetails />
       </div>
       <div ref={ridePopUpPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-5 py-6 pt-12'>
-        <RidePopUp 
+        <RidePopUp
           ride={ride}
           SetRidePopUpPanel={SetRidePopUpPanel}
-          SetConfirmRidePopUpPanel={SetConfirmRidePopUpPanel} 
+          SetConfirmRidePopUpPanel={SetConfirmRidePopUpPanel}
           confirmRide={confirmRide}
         />
       </div>

@@ -44,6 +44,7 @@ const Home = () => {
   }, [user, socket]);
 
   socket.on('ride-confirm', ride => {
+    setVehicleFoundPanel(false)
     setWaitingForDriverPanel(true)
   })
 

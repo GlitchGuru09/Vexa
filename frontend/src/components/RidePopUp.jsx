@@ -2,7 +2,7 @@ import React from 'react'
 import Car from '../images/car.png';
 
 const RidePopUp = (props) => {
-    // console.log(props.ride);
+    // console.log(props);
     return (
         <div>
             <h3 onClick={() => {props.SetRidePopUpPanel(false)}} className='absolute top-0 text-center p-1 w-[93%] text-2xl font-light text-gray-500'>
