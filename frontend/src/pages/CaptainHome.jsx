@@ -65,7 +65,7 @@ const CaptainHome = () => {
     console.error('No token found. Please log in.');
     return;
   }
-
+  // console.log(ride._id+' '+captain._id)
   try {
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{rideId: ride._id,captainId: captain._id},
       {
@@ -73,7 +73,7 @@ const CaptainHome = () => {
       }
     );
 
-    console.log(response)
+    // console.log(response)
 
     SetRidePopUpPanel(false);
     SetConfirmRidePopUpPanel(true);
@@ -136,7 +136,10 @@ const CaptainHome = () => {
         />
       </div>
       <div ref={confirmRidePopUpPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-5 py-6 pt-12'>
-        <ConfirmRidePopUp SetConfirmRidePopUpPanel={SetConfirmRidePopUpPanel} SetRidePopUpPanel={SetRidePopUpPanel} />
+        <ConfirmRidePopUp 
+        ride={ride}
+        SetConfirmRidePopUpPanel={SetConfirmRidePopUpPanel} 
+        SetRidePopUpPanel={SetRidePopUpPanel} />
       </div>
     </div>
   )

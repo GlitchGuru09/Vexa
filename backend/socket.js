@@ -56,7 +56,7 @@ const sendMessageToSocketId = (socketId, messageObject) => {
     // console.log(socketId);
     // console.log(io)
 
-    console.log(messageObject);
+    // console.log(messageObject);
     if (io) {
         io.to(socketId).emit(messageObject.event, messageObject.data);
     } else {
